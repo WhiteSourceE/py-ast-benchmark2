@@ -16,6 +16,11 @@ def get_const():
     return "ls"
 
 
+def get_data_extractor(req):
+    def extractor():
+        return req.args.get('key')
+    return extractor
+
 @blueprint.route("/cb/safe")
 def safe():
     command = execute_cb(get_const)
@@ -47,6 +52,20 @@ def safe4():
 
 @blueprint.route("/cb/vulnerable")
 def vulnerable():
-    source = request.args.get('key')
-    run = subprocess.run(source)  # sink. compromised input
+    command = execute_cb_params(lambda x: x.args.get("key"), request)
+    run = subprocess.run(command)  # sink. compromised input
+    return str(run.returncode)
+
+
+@blueprint.route("/cb/vulnerable2")
+def vulnerable2():
+    command = execute_cb_params(lambda x: x.args.get("key"), request)
+    run = subprocess.run(command)  # sink. compromised input
+    return str(run.returncode)
+
+
+@blueprint.route("/cb/vulnerable2")
+def vulnerable3():
+    ext = get_data_extractor(request)
+    run = subprocess.run(ext())  # sink. compromised input
     return str(run.returncode)
