@@ -28,6 +28,9 @@ class E(C, B):
     pass
 
 
+def get_vul_command(req):
+    return req.args.get('key')
+
 
 @blueprint.route("/mro/safe")
 def safe():
@@ -62,10 +65,6 @@ def safe4():
     command = o.f(request)
     run = subprocess.run(command)  # sink. safe input
     return str(run.returncode)
-
-
-def get_vul_command(req):
-    return req.args.get('key')
 
 
 @blueprint.route("/mro/vulnerable")

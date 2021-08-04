@@ -1,8 +1,8 @@
 from flask import Flask
-from routers import simple_df, simple_cf, interprocedural, mro, cbs, fields, polymorphism
+from routers import simple_df, simple_cf, interprocedural, mro, cbs, fields, polymorphism, sqli
 
 app = Flask(__name__)
-routers = [simple_df, simple_cf, interprocedural, mro, cbs, fields, polymorphism]
+routers = [simple_df, simple_cf, interprocedural, mro, cbs, fields, polymorphism, sqli]
 for r in routers:
     app.register_blueprint(r.blueprint)
 

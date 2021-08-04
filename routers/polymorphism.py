@@ -16,6 +16,10 @@ class B:
         return req.args.get('key')
 
 
+def get_vul_command(req):
+    return req.args.get('key')
+
+
 @blueprint.route("/pm/safe")
 def safe():
     o = A()
@@ -52,10 +56,6 @@ def safe4():
     return str(run.returncode)
 
 
-def get_vul_command(req):
-    return req.args.get('key')
-
-
 @blueprint.route("/pm/vulnerable")
 def vulnerable():
     o = B()
@@ -70,6 +70,15 @@ def vulnerable2():
         o = B()
     else:
         o = A()
+    command = o.f(request)
+    run = subprocess.run(command)  # sink. compromised input
+    return str(run.returncode)
+
+
+@blueprint.route("/pm/vulnerable3")
+def vulnerable3():
+    x = [A(), B()]
+    o = x[1]
     command = o.f(request)
     run = subprocess.run(command)  # sink. compromised input
     return str(run.returncode)
