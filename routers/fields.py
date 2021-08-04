@@ -107,6 +107,6 @@ def vulnerable4():
 def vulnerable5():
     c = C(C(request.args.get('key'), "ls"), "ls")
     a = A(c)
-    cmd = a.get_f().get_a().get_b()
+    cmd = a.get_f().get_a().get_a()
     run = subprocess.run(cmd)
     return str(run.returncode)
